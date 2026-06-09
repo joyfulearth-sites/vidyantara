@@ -13,6 +13,11 @@ variables([
 	'quotes-display-count' => 5,
 ]);
 
+if (nodeIs(SITEHOME)) {
+	includeThemeManager();
+	CanvasTheme::addAssets(CanvasTheme::spa);
+}
+
 function after_menu() {
 	_headerMenuItem(replaceHtml('<img src="%site-assets%relief-foundation-icon.png" height="40" />'), 'https://relieffoundation.in/', true);
 }
@@ -31,8 +36,6 @@ function enrichThemeVars($vars, $what) {
 		foreach ($sheet->rows as $row)
 			$items[$row[0]] = renderSingleLineMarkdown($sheet->getValue($row, 'value'), ['echo' => false]);
 		$vars['optional-slider'] = replaceHtml(replaceItems(getSnippet('spa-slider'), $items, '%'));
-		includeThemeManager();
-		$vars['optional-page-css'] = CanvasTheme::HeadCssFor('spa', $vars['optional-page-css']);
 	}
 
 	return $vars;
